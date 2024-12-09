@@ -1243,7 +1243,7 @@ static PaError OpenAndSetupOneAudioUnit(
     comp = AudioComponentFindNext( NULL, &desc );
     if( !comp )
     {
-        DBUG( ( "AUHAL component not found." ) );
+        DBUG( ( "AUHAL component not found.\n" ) );
         *audioUnit = NULL;
         *audioDevice = kAudioDeviceUnknown;
         return paUnanticipatedHostError;
@@ -1252,7 +1252,7 @@ static PaError OpenAndSetupOneAudioUnit(
     result = AudioComponentInstanceNew( comp, audioUnit );
     if( result )
     {
-        DBUG( ( "Failed to open AUHAL component." ) );
+        DBUG( ( "Failed to open AUHAL component.\n" ) );
         *audioUnit = NULL;
         *audioDevice = kAudioDeviceUnknown;
         return ERR( result );
