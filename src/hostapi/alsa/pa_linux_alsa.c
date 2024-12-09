@@ -2353,6 +2353,13 @@ static PaError PaAlsaStreamComponent_DetermineFramesPerBuffer( PaAlsaStreamCompo
         ENSURE_( alsa_snd_pcm_hw_params_get_periods_max( hwParams, &maxPeriods, &dir ), paUnanticipatedHostError );
         assert( maxPeriods > 1 );
 
+        if( maxPeriods < 1 )
+        {
+            fprintf(stderr, "pa_linux_alsa.c: maxPeriods < 1, preventing divide-by-0 by returning paUnanticipatedHostError\n");
+            result = paUnanticipatedHostError;
+            goto error;
+        }
+
         /* Clamp to min/max */
         numPeriods = PA_MIN(maxPeriods, PA_MAX(minPeriods, numPeriods));
 
@@ -2890,6 +2897,12 @@ error:
     {
         PA_DEBUG(( "%s: Stream in error, terminating\n", __FUNCTION__ ));
         PaAlsaStream_Terminate( stream );
+    }
+
+    if( result == paNoError )
+    {
+        fprintf(stderr, "pa_linux_alsa.c: error occurred, but result was paNoError: returning paUnanticipatedHostError instead\n");
+        result = paUnanticipatedHostError;
     }
 
     return result;
