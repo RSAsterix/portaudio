@@ -338,6 +338,7 @@ elseif(UNIX)
       target_sources(portaudio PRIVATE src/hostapi/alsa/pa_linux_alsa.c)
       set(PORTAUDIO_PUBLIC_HEADERS "${PORTAUDIO_PUBLIC_HEADERS}" include/pa_linux_alsa.h)
       target_compile_definitions(portaudio PUBLIC PA_USE_ALSA=1)
+      target_compile_options(portaudio PRIVATE -Wno-deprecated-declarations)
       set(PKGCONFIG_CFLAGS "${PKGCONFIG_CFLAGS} -DPA_USE_ALSA=1")
 
       option(PA_ALSA_DYNAMIC "Enable dynamically loading libasound with dlopen using PaAlsa_SetLibraryPathName" OFF)
