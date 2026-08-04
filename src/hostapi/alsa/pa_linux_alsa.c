@@ -919,7 +919,7 @@ static PaError GropeDevice( snd_pcm_t* pcm, int isPlug, StreamDirection mode, in
      * in which case we will clip to a lower value.
      */
     const unsigned int kBadMaxChannels = 20000;
-    const unsigned int kReasonableMaxChannels = 1024;
+    const unsigned int kReasonableMaxChannels = 1024 * 1000; //HvZ increased kReasonableMaxChannels to be above 10000, needed for DEVA
     if( maxChans > kBadMaxChannels )
     {
         PA_DEBUG(( "%s: maxChans = %u, which indicates an ERROR\n", __FUNCTION__, maxChans ));
