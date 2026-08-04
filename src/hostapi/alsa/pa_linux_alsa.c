@@ -1491,7 +1491,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
     {
         PaAlsaDeviceInfo* devInfo = &deviceInfoArray[i];
         HwDevInfo* hwInfo = &hwDevInfos[i];
-        if( !strcmp( hwInfo->name, "dmix" ) || !strcmp( hwInfo->name, "default" ) )
+        if( !strcmp( hwInfo->name, "dmix" ) || !strcmp( hwInfo->name, "default" ) || !strncmp( hwInfo->name, "thimeo_", 7 ) )
         {
             continue;
         }
@@ -1504,7 +1504,7 @@ static PaError BuildDeviceList( PaAlsaHostApiRepresentation *alsaApi )
     {
         PaAlsaDeviceInfo* devInfo = &deviceInfoArray[i];
         HwDevInfo* hwInfo = &hwDevInfos[i];
-        if( strcmp( hwInfo->name, "dmix" ) && strcmp( hwInfo->name, "default" ) )
+        if( strcmp( hwInfo->name, "dmix" ) && strcmp( hwInfo->name, "default" ) && strncmp( hwInfo->name, "thimeo_", 7 ) )
         {
             continue;
         }
