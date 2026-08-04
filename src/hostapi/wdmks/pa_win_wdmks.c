@@ -6642,7 +6642,7 @@ static PaError PaPinCaptureEventHandler_WaveRTEvent(PaProcessThreadInfo* pInfo, 
     (void)frameCount;
     #endif
 
-    PA_HP_TRACE((pInfo->stream->hLog, "Capture event (WaveRT): idx=%u head=%u (pos = %4.1lf%%, frames=%u)", realInBuf, pInfo->captureHead, (pos * 100.0 / pCapture->hostBufferSize), frameCount));
+    PA_HP_TRACE((pInfo->stream->hLog, "Capture event (WaveRT): head=%u (pos = %4.1lf%%, frames=%u)", pInfo->captureHead, (pos * 100.0 / pCapture->hostBufferSize), frameCount));
 
     ++pInfo->captureHead;
     --pInfo->pending;
