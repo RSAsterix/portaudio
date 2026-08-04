@@ -114,6 +114,7 @@
 #include "pa_win_waveformat.h"
 #include "pa_win_util.h"
 #include "pa_win_version.h"
+#include "pa_win_coinitialize.h"
 
 #ifdef PAWIN_USE_WDMKS_DEVICE_INFO
 #include "pa_win_wdmks_utils.h"
@@ -937,6 +938,11 @@ PaError PaWinMme_Initialize( PaUtilHostApiRepresentation **hostApi, PaHostApiInd
     PaTime defaultLowLatency, defaultHighLatency;
     DWORD waveInPreferredDevice, waveOutPreferredDevice;
     DWORD preferredDeviceStatusFlags;
+    PaWinUtilComInitializationResult comInitializationResult;
+
+    result = PaWinUtil_CoInitialize( paMME, &comInitializationResult );
+    if( result != paNoError )
+        return result;
 
     winMmeHostApi = (PaWinMmeHostApiRepresentation*)PaUtil_AllocateZeroInitializedMemory( sizeof(PaWinMmeHostApiRepresentation) );
     if( !winMmeHostApi )
