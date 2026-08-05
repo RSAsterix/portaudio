@@ -396,6 +396,7 @@ typedef struct
     PaUtilStreamInterface blockingStreamInterface;
 
     PaUtilAllocationGroup *allocations;
+    PaWinUtilComInitializationResult comInitializationResult;
 
     int inputDeviceCount, outputDeviceCount;
 
@@ -938,16 +939,17 @@ PaError PaWinMme_Initialize( PaUtilHostApiRepresentation **hostApi, PaHostApiInd
     PaTime defaultLowLatency, defaultHighLatency;
     DWORD waveInPreferredDevice, waveOutPreferredDevice;
     DWORD preferredDeviceStatusFlags;
-    PaWinUtilComInitializationResult comInitializationResult;
-
-    result = PaWinUtil_CoInitialize( paMME, &comInitializationResult );
-    if( result != paNoError )
-        return result;
 
     winMmeHostApi = (PaWinMmeHostApiRepresentation*)PaUtil_AllocateZeroInitializedMemory( sizeof(PaWinMmeHostApiRepresentation) );
     if( !winMmeHostApi )
     {
         result = paInsufficientMemory;
+        goto error;
+    }
+
+    result = PaWinUtil_CoInitialize( paMME, &winMmeHostApi->comInitializationResult );
+    if( result != paNoError )
+    {
         goto error;
     }
 
@@ -1159,6 +1161,8 @@ static void Terminate( struct PaUtilHostApiRepresentation *hostApi )
         PaUtil_FreeAllAllocations( winMmeHostApi->allocations );
         PaUtil_DestroyAllocationGroup( winMmeHostApi->allocations );
     }
+
+    PaWinUtil_CoUninitialize( paDirectSound, &winMmeHostApi->comInitializationResult );
 
     PaUtil_FreeMemory( winMmeHostApi );
 }
