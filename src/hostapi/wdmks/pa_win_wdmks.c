@@ -891,7 +891,8 @@ static PaError WdmGetPinPropertyMulti(
 
     if( result != paNoError )
     {
-        PaUtil_FreeMemory( ksMultipleItem );
+        PaUtil_FreeMemory( *ksMultipleItem );
+        *ksMultipleItem = NULL;
     }
 
     return result;
@@ -940,7 +941,8 @@ static PaError WdmGetPropertyMulti(HANDLE handle,
 
     if( result != paNoError )
     {
-        PaUtil_FreeMemory( ksMultipleItem );
+        PaUtil_FreeMemory( *ksMultipleItem );
+        *ksMultipleItem = NULL;
     }
 
     return result;
